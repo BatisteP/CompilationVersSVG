@@ -1,0 +1,75 @@
+package batiste;
+import batiste.enode.*;
+import batiste.svgnode.*;
+
+parser code {:
+    public void report_error(String message, Object info) {
+        StringBuffer m = new StringBuffer("Error");
+		m.append (info.toString());
+        m.append(" : "+message);
+        System.err.println(m.toString());
+    }
+   
+    public void report_fatal_error(String message, Object info) {
+        report_error(message, info);
+        System.exit(1);
+    }
+    
+    private Context context;
+    public void setContext (Context context) {
+    	this.context = context;
+    }
+
+    public Context getContext () {
+		return context;
+    }
+
+	public Factory getFactory () {
+		return getContext().getFactory();
+	}
+
+:}
+
+terminal TERM;
+terminal MAKERECT, MAKECONTAINER FRAME;
+terminal SEP;
+terminal PLUS, MULT, MINUS, DIV,  EQUAL;
+terminal Integer INTEGER;
+terminal String ID, STR;
+
+
+nonterminal Object  Commandes, Definitions, Definition, Instruction;
+nonterminal Integer Expression;
+precedence left PLUS, MINUS;
+precedence left MULT, DIV;
+precedence right UMINUS;
+Commandes	::= FRAME INTEGER:width INTEGER:length Definitions 
+			{: RESULT = getContext().setRacine(getFactory().createRacineNode(width, length)); :}
+			;
+
+Definitions ::= 
+			| 	Definitions Definition
+			;
+
+Definition	::= Instruction TERM
+			;
+
+
+Instruction ::= MAKERECT Expression:x Expression:y Expression:width Expression:length STR:color 
+				{: RESULT =  getFactory().createRectSVGNode(x.getValue(),y.getValue(), width.getValue(), length.getValue(), color);
+				//getTurtle().move(d); :}
+			|   MAKECONTAINER String:color String:transf   {:  :}
+			|   ID:id EQUAL Expression:v
+			 {: //getTable().setValue(n,v);
+			 	
+			 	getContext().getSymMap().put(id, v.getValue());
+			 :}
+			; 
+Expression  ::= INTEGER:v                       {: RESULT = getFactory().createValueENode(v); :}
+			|   ID:n	 						{: RESULT = getFactory().createVarENode(id).setValue(context.getSymMap().get(id)); :}
+			|	Expression:l PLUS Expression:r  {: RESULT = getFactory().createAddENode (l, r); :}
+			|	Expression:l MINUS Expression:r {: RESULT = getFactory().createSubENode (l, r); :}
+			|	Expression:l MULT Expression:r  {: RESULT = getFactory().createMultENode (l, r); :}
+			|	Expression:l DIV Expression:r   {: RESULT = getFactory().createDivENode (l, r); :}
+			|   MINUS Expression:v 				{: RESULT = getFactory().createMinusENode (v); :} %prec UMINUS
+			;

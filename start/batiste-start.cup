@@ -1,0 +1,166 @@
+package batiste;
+import batiste.enode.*;
+import batiste.svgnode.*;
+import batiste.util.*;
+
+parser code {:
+    public void report_error(String message, Object info) {
+        StringBuffer m = new StringBuffer("Error");
+		m.append (info.toString());
+        m.append(" : "+message);
+        System.err.println(m.toString());
+    }
+   
+    public void report_fatal_error(String message, Object info) {
+        report_error(message, info);
+    }
+    
+    private Context context;
+    public void setContext (Context context) {
+    	this.context = context;
+    }
+
+    public Context getContext () {
+		return context;
+    }
+
+	public Factory getFactory () {
+		return getContext().getFactory();
+	}
+
+:}
+
+terminal TERM, MAKELINE,MAKEPOLYGON;
+terminal MAKERECT, MAKECONTAINER, FRAME, MAKECIRCLE, MAKEANIMATETRANSFORM;
+terminal CONTAINERSTART, CONTAINERSTOP, MAKECONT;
+terminal SEP, MAKETEXT,QUOTE, MAKEANIMATION;
+terminal PLUS, MULT, MINUS, DIV,  EQUAL, UMINUS;
+terminal Integer INTEGER;
+terminal String ID, WORD,POINT;
+
+nonterminal String myPoints;
+nonterminal String myWord;
+nonterminal String myWords, Numbers;
+nonterminal SVGNode Container;
+nonterminal SVGNode  Instructions, Commandes, Definitions, Definition, Instruction, ContainerStart, Makecont;
+nonterminal SetFrame;
+nonterminal ENode Expression;
+precedence left PLUS, MINUS;
+precedence left MULT, DIV;
+precedence right UMINUS;
+
+Commandes	::= SetFrame Definitions 
+			;
+SetFrame ::= FRAME INTEGER:width INTEGER:length 
+				{:
+				  RacineSVGNode raci = getFactory().createRacineNode(width, length); 
+				  getContext().setRacine(raci);
+			     :}
+			  ;
+Definitions ::= 
+			| 	Definitions Definition
+			;
+
+Definition	::= Instruction:inst TERM {: RESULT = inst; :}
+			|  Container:cont 
+				{: 	
+				 getContext().setCurrentParent(getContext().getCurrentParent().getParent());
+				 RESULT = cont ;
+			    :}
+			 ;
+
+Container ::= Makecont:mc  Definitions CONTAINERSTOP {:RESULT = mc;:}
+			;
+Makecont ::= MAKECONT myWord:name myWord:colorStroke Expression:strokeWidth QUOTE myWords:transform QUOTE ContainerStart:cs
+				{:  
+					ContainerSVGNode container = getFactory().createContainerNode(name, colorStroke,strokeWidth.getValue(), transform);
+					getContext().setCurrentParent(container);
+					RESULT = container;
+				:}
+				 ;
+ContainerStart ::= CONTAINERSTART
+				;
+Instructions ::= 
+			  |Instructions:l Instruction TERM  {: RESULT =l; :} 
+			  ;
+Instruction ::= MAKERECT Expression:x Expression:y Expression:width Expression:length  myWord:color
+				{:	
+					RESULT =  getFactory().createRectangleNode(x.getValue(),y.getValue(), width.getValue(), length.getValue(), color);
+				:}
+			   |MAKERECT ID:id Expression:x Expression:y Expression:width Expression:length  myWord:color
+				{:	
+					RESULT =  getFactory().createNamedRectangleNode(id,x.getValue(),y.getValue(), width.getValue(), length.getValue(), color,null);
+				:}
+				 |MAKERECT ID:id Expression:x Expression:y Expression:width Expression:length  myWord:color myWord:transf
+				{:	
+					RESULT =  getFactory().createNamedRectangleNode(id,x.getValue(),y.getValue(), width.getValue(), length.getValue(), color,transf);
+				:}
+				|MAKECIRCLE ID:id Expression:cx Expression:cy Expression:r myWord:color
+				{:	
+					RESULT =  getFactory().createNamedCircleNode(id,cx.getValue(),cy.getValue(), r.getValue(),  color);
+				:}
+				|MAKECIRCLE ID:id Expression:cx Expression:cy Expression:r myWord:color
+				{:	
+					RESULT =  getFactory().createCircleNode(cx.getValue(),cy.getValue(), r.getValue(),  color);
+				:}
+				|MAKETEXT ID:id Expression:x Expression:y QUOTE myWords:text QUOTE  
+				{:
+					RESULT =  getFactory().createNamedTextNode(id,x.getValue(),y.getValue(), text);
+				:}
+				|MAKELINE ID:id Expression:x1 Expression:y1 Expression:x2 Expression:y2 myWord:color 
+				{: 
+					getFactory().createNamedLineNode(id, x1.getValue(),y1.getValue(), x2.getValue(),y2.getValue(),  color); 
+				:}
+				|MAKEANIMATION ID:name ID:on myWord:attribut myWord:from myWord:to Expression:duree myWord:begin myWord:actionAtEnd
+				{:
+					RESULT =  getFactory().createNamedAnimation(name,on,attribut,from,to, duree.getValue(),begin,actionAtEnd);
+				:}
+				|MAKEANIMATETRANSFORM ID:name ID:on myWord:attribut myWord:type QUOTE Numbers:from QUOTE QUOTE Numbers:to QUOTE Expression:duree myWord:begin myWord:repeatCount
+				{:
+					RESULT =  getFactory().createNamedAnimateTransform(name,on,attribut,type,from,to, duree.getValue(),begin,repeatCount);
+				:}
+				|MAKEANIMATETRANSFORM ID:name ID:on myWord:attribut myWord:type QUOTE Numbers:from QUOTE QUOTE Numbers:to QUOTE Expression:duree myWord:begin Expression:repeatCount
+				{:
+					RESULT =  getFactory().createNamedAnimateTransform(name,on,attribut,type,from,to, duree.getValue(),begin,(new Integer(repeatCount.getValue())).toString());
+				:}
+				|MAKEPOLYGON ID:id myWord:color myWord:transf CONTAINERSTART myPoints:pts CONTAINERSTOP
+				{:	
+					RESULT =  getFactory().createNamedPolygonNode(id,pts,color, transf);
+				:}
+				
+				|   ID:id EQUAL Expression:v
+				 {: 
+				 	getContext().getSymMap().put(id, v.getValue());
+				 :}
+			;
+			
+Numbers ::= {:RESULT = "";:}
+		| Numbers:nums Expression:e {:RESULT = nums +" "+ e.getValue() ;:}
+		;
+myWords  ::= {:RESULT = "";:}
+		| myWords:my myWord:w {:RESULT = my +" "+ w ;:}
+		;
+myWord ::=| ID:id {: 
+					if (getContext().getSymMap().get(id)!=null){
+						RESULT = new Integer(getContext().getSymMap().get(id)).toString();
+					}
+					else RESULT=id;
+  				:}
+		  | WORD:wrd   {:  RESULT=wrd; :}
+		  | Expression:e {: RESULT= new Integer(e.getValue()).toString();:}
+		  ;
+myPoints ::= {:RESULT = "";:}	
+		  | myPoints:myp POINT:p {: RESULT= myp + " " + p; :}		
+		  ;
+Expression  ::= INTEGER:v  {: RESULT = getFactory().createValueENode(v); :}
+			|   ID:id	 	{: VarENode var = getFactory().createVarENode(id);
+								 var.setValue(getContext().getSymMap().get(id));
+								 RESULT = var; 
+							 :}					
+				
+			|	Expression:l PLUS Expression:r  {: RESULT = getFactory().createAddENode (l, r); :}
+			|	Expression:l MINUS Expression:r {: RESULT = getFactory().createSubENode (l, r); :}
+			|	Expression:l MULT Expression:r  {: RESULT = getFactory().createMultENode (l, r); :}
+			|	Expression:l DIV Expression:r   {: RESULT = getFactory().createDivENode (l, r); :}
+			|   MINUS Expression:v 				{: RESULT = getFactory().createMinusENode (v); :} %prec UMINUS
+			;

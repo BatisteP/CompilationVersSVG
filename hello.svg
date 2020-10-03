@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="800" height="500"
+     xmlns:xlink="http://www.w3.org/1999/xlink">
+  <title>Exemple simple de figure SVG</title>
+  <desc>
+    genere par l'API de batiste Pretesac, TP compilation 2020
+  </desc>
+  <polygon id="mypoly" fill="#FFD700" transform="none" points=" 400,10 340,198 490,78 310,78 460,198 "/>
+  <animate  xlink:href="#mypoly" attributeName="fill" from="#FFD700" to="#E0115F" dur="5s" begin="click" fill="freeze" id="mypolyAnimation"/>
+  <animate  xlink:href="#mypoly" attributeName="fill" from="#E0115F" to="#FFD700" dur="5s" begin="mypolyAnimation.end" fill="freeze" id="mypolyAnimation2"/>
+  <animateTransform  xlink:href="#mypoly" attributeName="transform" from=" 0 400 100" to=" 360 400 100" dur="6s" begin="mypolyAnimation.begin" repeatCount="1" type="rotate" id="mypolyAnimation4"/>
+  <g id="mycont" stroke="black" stroke-width="2" transform=" rotate(0)">
+    <animateTransform  xlink:href="#mycont" attributeName="transform" from=" 0 150 150" to=" 360 150 150" dur="112s" begin="1s" repeatCount="indefinite" type="rotate" id="myTransform"/>
+    <g id="mycont3" stroke="black" stroke-width="2" transform=" rotate(0)">
+      <g id="mycont4" stroke="black" stroke-width="2" transform=" rotate(0)">
+        <rect id="BroussardRect" width="100" height="100" x="100" y="100" fill="yellow"/>
+  </g>
+      <circle id="BroussardRect" cx="150" cy="150" r="50" fill="yellow"/>
+      <rect id="BroussardRect2" width="71" height="71" x="114" y="114" fill="yellow" transform="rotate(45,150,150)"/>
+      <line id="Broussard" x1="150" y1="150" x2="150" y2="100" stroke="black"/>
+      <line id="Broussard2" x1="150" y1="150" x2="150" y2="100" stroke="black"/>
+      <line id="Broussard3" x1="150" y1="150" x2="150" y2="100" stroke="black"/>
+      <line id="Broussard4" x1="150" y1="150" x2="150" y2="100" stroke="black"/>
+      <line id="Broussard5" x1="150" y1="150" x2="150" y2="100" stroke="black"/>
+  </g>
+    <animateTransform  xlink:href="#mycont4" attributeName="transform" from=" 0 150 150" to=" -360 150 150" dur="200s" begin="1s" repeatCount="indefinite" type="rotate" id="myTransform"/>
+    <animateTransform  xlink:href="#mycont3" attributeName="transform" from=" -60 0" to=" 800 0" dur="200s" begin="1s" repeatCount="indefinite" type="translate" id="myTransform2"/>
+    <animateTransform  xlink:href="#mycont3" attributeName="transform" from=" 0 0" to=" -90" dur="12s" begin="click" repeatCount="1" type="translate" id="myTransform3"/>
+    <animate  xlink:href="#Broussard" attributeName="x2" from="150" to="200" dur="5s" begin="1s" fill="freeze" id="B1animationlinex1"/>
+    <animate  xlink:href="#Broussard" attributeName="y2" from="100" to="150" dur="5s" begin="1s" fill="freeze" id="B1animationliney1"/>
+    <animate  xlink:href="#Broussard2" attributeName="x2" from="150" to="200" dur="5s" begin="1s" fill="freeze" id="B2animationlinex1"/>
+    <animate  xlink:href="#Broussard2" attributeName="y2" from="100" to="150" dur="5s" begin="1s" fill="freeze" id="B2animationliney1"/>
+    <animate  xlink:href="#Broussard3" attributeName="x2" from="150" to="200" dur="5s" begin="1s" fill="freeze" id="B3animationlinex1"/>
+    <animate  xlink:href="#Broussard3" attributeName="y2" from="100" to="150" dur="5s" begin="1s" fill="freeze" id="B3animationliney1"/>
+    <animate  xlink:href="#Broussard4" attributeName="x2" from="150" to="200" dur="5s" begin="1s" fill="freeze" id="B4animationlinex1"/>
+    <animate  xlink:href="#Broussard4" attributeName="y2" from="100" to="150" dur="5s" begin="1s" fill="freeze" id="B4animationliney1"/>
+    <animate  xlink:href="#Broussard5" attributeName="x2" from="150" to="200" dur="5s" begin="1s" fill="freeze" id="B5animationlinex1"/>
+    <animate  xlink:href="#Broussard5" attributeName="y2" from="100" to="150" dur="5s" begin="1s" fill="freeze" id="B4animationliney1"/>
+    <animate  xlink:href="#Broussard" attributeName="x2" from="200" to="150" dur="5s" begin="6s" fill="freeze" id="B1animationlinex2"/>
+    <animate  xlink:href="#Broussard" attributeName="y2" from="150" to="200" dur="5s" begin="6s" fill="freeze" id="B1animationliney2"/>
+    <animate  xlink:href="#Broussard2" attributeName="x2" from="200" to="150" dur="5s" begin="6s" fill="freeze" id="B2animationlinex2"/>
+    <animate  xlink:href="#Broussard2" attributeName="y2" from="150" to="100" dur="5s" begin="6s" fill="freeze" id="B2animationliney2"/>
+    <animate  xlink:href="#Broussard5" attributeName="x2" from="200" to="150" dur="5s" begin="6s" fill="freeze" id="B5animationlinex2"/>
+    <animate  xlink:href="#Broussard5" attributeName="y2" from="150" to="200" dur="5s" begin="6s" fill="freeze" id="B5animationliney2"/>
+    <animate  xlink:href="#Broussard4" attributeName="x2" from="200" to="150" dur="5s" begin="6s" fill="freeze" id="B4animationlinex2"/>
+    <animate  xlink:href="#Broussard4" attributeName="y2" from="150" to="200" dur="5s" begin="6s" fill="freeze" id="B4animationliney2"/>
+    <animate  xlink:href="#Broussard" attributeName="x2" from="150" to="100" dur="5s" begin="11s" fill="freeze" id="B1animationlinex3"/>
+    <animate  xlink:href="#Broussard" attributeName="y2" from="200" to="150" dur="5s" begin="11s" fill="freeze" id="B1animationliney3"/>
+    <animate  xlink:href="#Broussard4" attributeName="x2" from="150" to="100" dur="5s" begin="11s" fill="freeze" id="B4animationlinex3"/>
+    <animate  xlink:href="#Broussard4" attributeName="y2" from="200" to="150" dur="5s" begin="11s" fill="freeze" id="B4animationliney3"/>
+    <animate  xlink:href="#Broussard" attributeName="x2" from="100" to="150" dur="5s" begin="16s" fill="freeze" id="animationlinex4"/>
+    <animate  xlink:href="#Broussard" attributeName="y2" from="150" to="100" dur="5s" begin="16s" fill="freeze" id="animationliney4"/>
+    <animate  xlink:href="#Broussard" attributeName="x2" from="150" to="200" dur="10s" begin="21s" fill="freeze" id="B1animationlinex5"/>
+    <animate  xlink:href="#Broussard" attributeName="y2" from="100" to="150" dur="10s" begin="21s" fill="freeze" id="B1animationliney5"/>
+    <animate  xlink:href="#Broussard2" attributeName="x2" from="150" to="200" dur="10s" begin="21s" fill="freeze" id="B2animationlinex5"/>
+    <animate  xlink:href="#Broussard2" attributeName="y2" from="100" to="150" dur="10s" begin="21s" fill="freeze" id="B2animationliney5"/>
+    <animate  xlink:href="#Broussard3" attributeName="x2" from="200" to="150" dur="10s" begin="21s" fill="freeze" id="B3animationlinex5"/>
+    <animate  xlink:href="#Broussard3" attributeName="y2" from="150" to="200" dur="10s" begin="21s" fill="freeze" id="B3animationliney5"/>
+    <animate  xlink:href="#Broussard4" attributeName="x2" from="100" to="150" dur="10s" begin="21s" fill="freeze" id="B4animationlinex5"/>
+    <animate  xlink:href="#Broussard4" attributeName="y2" from="150" to="100" dur="10s" begin="21s" fill="freeze" id="B4animationliney5"/>
+    <animate  xlink:href="#Broussard5" attributeName="x2" from="150" to="100" dur="10s" begin="21s" fill="freeze" id="B5animationlinex5"/>
+    <animate  xlink:href="#Broussard5" attributeName="y2" from="200" to="150" dur="10s" begin="21s" fill="freeze" id="B5animationliney5"/>
+  </g>
+  <g id="myclock" stroke="white" stroke-width="4" transform=" rotate(0)">
+    <rect id="clockReveil" width="200" height="200" x="300" y="300" fill="#ADD8E6"/>
+    <circle id="clockCircle" cx="400" cy="400" r="50" fill="#C0C0C0"/>
+    <g id="cline1" stroke="white" stroke-width="2" transform=" rotate( 30 400 400 )">
+      <line id="line1" x1="400" y1="359" x2="400" y2="367" stroke="white"/>
+  </g>
+    <g id="cline2" stroke="white" stroke-width="2" transform=" rotate( 60 400 400 )">
+      <line id="line2" x1="400" y1="359" x2="400" y2="367" stroke="white"/>
+  </g>
+    <g id="cline3" stroke="white" stroke-width="2" transform=" rotate( 90 400 400 )">
+      <line id="line3" x1="400" y1="359" x2="400" y2="367" stroke="white"/>
+  </g>
+    <g id="cline4" stroke="white" stroke-width="2" transform=" rotate( 120 400 400 )">
+      <line id="line4" x1="400" y1="359" x2="400" y2="367" stroke="white"/>
+  </g>
+    <g id="cline5" stroke="white" stroke-width="2" transform=" rotate( 150 400 400 )">
+      <line id="line5" x1="400" y1="359" x2="400" y2="367" stroke="white"/>
+  </g>
+    <g id="cline6" stroke="white" stroke-width="2" transform=" rotate( 180 400 400 )">
+      <line id="line6" x1="400" y1="359" x2="400" y2="367" stroke="white"/>
+  </g>
+    <g id="cline7" stroke="white" stroke-width="2" transform=" rotate( 210 400 400 )">
+      <line id="line7" x1="400" y1="359" x2="400" y2="367" stroke="white"/>
+  </g>
+    <g id="cline8" stroke="white" stroke-width="2" transform=" rotate( 240 400 400 )">
+      <line id="line8" x1="400" y1="359" x2="400" y2="367" stroke="white"/>
+  </g>
+    <g id="cline9" stroke="white" stroke-width="2" transform=" rotate( 270 400 400 )">
+      <line id="line9" x1="400" y1="359" x2="400" y2="367" stroke="white"/>
+  </g>
+    <g id="cline10" stroke="white" stroke-width="2" transform=" rotate( 300 400 400 )">
+      <line id="line10" x1="400" y1="359" x2="400" y2="367" stroke="white"/>
+  </g>
+    <g id="cline11" stroke="white" stroke-width="2" transform=" rotate( 330 400 400 )">
+      <line id="line11" x1="400" y1="359" x2="400" y2="367" stroke="white"/>
+  </g>
+    <g id="cline11" stroke="white" stroke-width="2" transform=" rotate( 0 )">
+      <line id="line12" x1="400" y1="359" x2="400" y2="367" stroke="white"/>
+  </g>
+  </g>
+  <circle id="center" cx="400" cy="400" r="3" fill="#A9A9A9"/>
+  <g id="myHoursCont" stroke="#808080" stroke-width="4" transform=" rotate( 209 400 400)">
+    <line id="hours" x1="400" y1="400" x2="400" y2="380" stroke="#808080"/>
+    <animateTransform  xlink:href="#hours" attributeName="transform" from=" 0 400 400" to=" 360 400 400" dur="43200s" begin="1s" repeatCount="indefinite" type="rotate" id="myHours"/>
+  </g>
+  <g id="myMinuteCont" stroke="white" stroke-width="3" transform=" rotate( 354 400 400)">
+    <line id="minutes" x1="400" y1="400" x2="400" y2="370" stroke="white"/>
+    <animateTransform  xlink:href="#minutes" attributeName="transform" from=" 0 400 400" to=" 360 400 400" dur="3600s" begin="1s" repeatCount="indefinite" type="rotate" id="myMinute"/>
+  </g>
+  <g id="mySecondsCont" stroke="white" stroke-width="2" transform=" rotate(0 400 400)">
+    <line id="seconds" x1="400" y1="400" x2="400" y2="360" stroke="white"/>
+    <animateTransform  xlink:href="#seconds" attributeName="transform" from=" 0 400 400" to=" 360 400 400" dur="60s" begin="1s" repeatCount="indefinite" type="rotate" id="mySecond"/>
+  </g>
+  <text id="timeseted" x="325" y="320"> Alarm set at 7 h 0 min
+  </text>
+  <text id="wakeup" x="370" y="1000"> WAKE UP
+  </text>
+  <animate  xlink:href="#clockReveil" attributeName="fill" from="#ADD8E6" to="#FDFD96" dur="1s" begin="60" fill="freeze" id="wakeupAnim1"/>
+  <animate  xlink:href="#wakeup" attributeName="y" from="1000" to="470" dur="1s" begin="wakeupAnim1.begin" fill="freeze" id="wakeupAnim2"/>
+</svg>

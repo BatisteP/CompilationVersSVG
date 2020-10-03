@@ -1,0 +1,42 @@
+     
+%%
+   
+%package hassen.logo.compiler
+%class Lexer
+%public
+%line
+%column
+%cup
+
+%%
+
+[ \t\n\r]		{ }
+^#.*			{ }
+
+
+up				{ return getSymbolFactory().newSymbol ("UP", Sym.UP); }
+down			{ return getSymbolFactory().newSymbol ("DOWN", Sym.DOWN); }
+turn			{ return getSymbolFactory().newSymbol ("TURN", Sym.TURN); }
+move			{ return getSymbolFactory().newSymbol ("MOVE", Sym.MOVE); }
+goto			{ return getSymbolFactory().newSymbol ("GOTO", Sym.GOTO); }
+repeat			{ return getSymbolFactory().newSymbol ("REPEAT", Sym.REPEAT); }
+times			{ return getSymbolFactory().newSymbol ("TIMES", Sym.TIMES); }
+begin			{ return getSymbolFactory().newSymbol ("BEGIN", Sym.BEGIN); }
+end      		{ return getSymbolFactory().newSymbol ("END", Sym.END); }
+function      		{ return getSymbolFactory().newSymbol ("FUNCTION", Sym.FUNCTION); }
+"="				{ return getSymbolFactory().newSymbol ("SET", Sym.SET); }
+"+"				{ return getSymbolFactory().newSymbol ("ADD", Sym.ADD); }
+"-"				{ return getSymbolFactory().newSymbol ("SUB", Sym.SUB); }
+"*"				{ return getSymbolFactory().newSymbol ("MULT", Sym.MULT); }
+"/"				{ return getSymbolFactory().newSymbol ("DIV", Sym.DIV); }
+"("				{ return getSymbolFactory().newSymbol ("OPEN_PARENTHESIS", Sym.OPEN_PARENTHESIS); }
+")"				{ return getSymbolFactory().newSymbol ("CLOSE_PARENTHESIS", Sym.CLOSE_PARENTHESIS); }
+
+","				{ return getSymbolFactory().newSymbol ("SEP", Sym.SEP); }
+";"				{ return getSymbolFactory().newSymbol ("SEP", Sym.TERM); }
+
+[0-9]+			{ return getSymbolFactory().newSymbol ("NUMBER", Sym.NUMBER, Double.valueOf(yytext())); }
+\$[0-9]+			{ return getSymbolFactory().newSymbol ("ID", Sym.ID, yytext()); }
+[a-zA-Z][a-zA-Z_0-9]*	{ return getSymbolFactory().newSymbol ("ID", Sym.ID, yytext()); }
+
+[^]				{ throw new Error("Illegal character <"+yytext()+">"); }

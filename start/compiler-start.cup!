@@ -1,0 +1,121 @@
+package hassen.logo.compiler;
+import hassen.logo.factory.LogoFactory;
+import hassen.ast.Node;
+import hassen.ast.Symbol;
+import hassen.ast.SymbolFunction;
+parser code {:
+    public void report_error(String message, Object info) {
+        StringBuffer m = new StringBuffer("Error");
+		m.append (info.toString());
+        m.append(" : "+message);
+        System.err.println(m.toString());
+    }
+   
+    public void report_fatal_error(String message, Object info) {
+        report_error(message, info);
+        System.exit(1);
+    }
+    
+	private LogoContext context;
+    public void setContext (LogoContext context) {
+    	this.context = context;
+    }
+
+    public LogoContext getContext () {
+		return context;
+    }
+
+	public LogoFactory getFactory () {
+		return getContext().getFactory();
+	}
+
+:}
+
+terminal Double	NUMBER;
+terminal String		ID;
+terminal BEGIN, END;
+terminal GOTO, UP, DOWN, MOVE, TURN, REPEAT, TIMES;
+terminal ADD, SUB, MULT, DIV;
+terminal TERM, SEP, SET;
+terminal OPEN_PARENTHESIS, CLOSE_PARENTHESIS;
+terminal UNARY_PLUS, UNARY_MINUS;
+terminal FUNCTION;
+nonterminal			Commandes, Definitions, Definition;
+nonterminal Node    Instruction, Instructions;
+nonterminal Node    FunctionBody, expr, expropt;
+nonterminal Node params, param, paramsOpt;
+nonterminal Symbol Declaration;
+nonterminal SymbolFunction FunctionSignature;
+precedence left ADD, SUB; 
+precedence left MULT, DIV; 
+precedence right UNARY_PLUS, UNARY_MINUS;
+
+Commandes	::= Definitions
+			;
+
+Definitions ::= 
+			| 	Definitions Definition
+			;
+
+Definition	::= Declaration:decl    {:	if (decl != null) getContext().addLocalSymbol(decl); :}
+			|Instruction:inst TERM	{:	if (inst != null) getContext().addGlobalInstruction(inst); :}
+			;
+Declaration ::= FunctionSignature:f FunctionBody:b
+			{: 
+				f.setCode(b);
+				RESULT = f;
+			:}
+			;
+FunctionSignature  ::= FUNCTION ID:name OPEN_PARENTHESIS CLOSE_PARENTHESIS
+			{: 
+				SymbolFunction function = getFactory().createTurtleFunction(name);
+				getContext().getVista().push(function.getTable());
+				RESULT = function;
+			:}
+				;
+FunctionBody ::= BEGIN Instructions:l END   
+			{: 
+				getContext().getVista().pop();
+				RESULT = l;
+			:}   
+				;
+Instruction ::=
+			| UP					{: RESULT = getFactory().createTurtleOff (); :}
+			| DOWN					{: RESULT = getFactory().createTurtleOn (); :}
+			| GOTO expr:x SEP expr:y	{: RESULT = getFactory().createTurtleGo (x, y); :}
+			| MOVE expr:d			{: RESULT = getFactory().createTurtleMove (d); :}
+			| TURN expr:a				{: RESULT = getFactory().createTurtleTurn (a); :}
+			| ID:id SET expr:v			{: RESULT = getFactory().createTurtleSet (id, v); :}
+			| ID:id OPEN_PARENTHESIS paramsOpt:ps CLOSE_PARENTHESIS 
+				{: RESULT = getFactory().createNodeFunctionCall (getFactory().createNodeVariable (id), ps); 
+				:}
+			| BEGIN Instructions:l END      {: RESULT = l; :}
+			| REPEAT expr:c TIMES Instruction:l {: RESULT = getFactory().createTurtleLoop (c, l); :}
+			
+			;
+paramsOpt	::= 			{: RESULT = null; :}
+			| params:ps		{: RESULT = ps; :}
+			;		
+params		::= param:p  {: RESULT  = getFactory().createNodeBloc(); RESULT.getChildren().add(p); :}
+			|   params:ps SEP param:p {: RESULT  = ps; RESULT.getChildren().add(p); :}
+ 			;
+param 		::=	expr:v {: RESULT = v; :}	
+			;	
+Instructions ::=						{: RESULT = getFactory().createNodeBloc(); :}
+			 | Instructions:l Instruction:i TERM    
+			 							{: RESULT =l;
+			 							   if (i != null) l.getChildren().add(i);
+			 							:}
+			 ;
+
+expr	::=	OPEN_PARENTHESIS expr:e CLOSE_PARENTHESIS	{: RESULT = e; :}
+			| expr:e1 ADD expr:e2		{: RESULT = getFactory().createNodeAdd (e1, e2); :}
+			| expr:e1 SUB expr:e2		{: RESULT = getFactory().createNodeSub (e1, e2); :}
+			| expr:e1 MULT expr:e2		{: RESULT = getFactory().createNodeMult (e1, e2); :}
+			| expr:e1 DIV expr:e2		{: RESULT = getFactory().createNodeDiv (e1, e2); :}
+			| ADD expr:e				{: RESULT = getFactory().createNodePlus (e); :} %prec UNARY_PLUS
+			| SUB expr:e				{: RESULT = getFactory().createNodeMinus (e); :} %prec UNARY_MINUS
+			| NUMBER:n					{: RESULT = getFactory().createNodeConstantReal (n.doubleValue()); :}
+			| ID:id						{: RESULT = getFactory().createNodeVariable (id); :}
+			;
+			

@@ -1,0 +1,143 @@
+frame 800 500
+
+timehour = 6;
+timeminute = 59;
+timereveil = 7;
+timeminutereveil = 0;
+
+
+
+polygon mypoly #FFD700 none [
+	400,10 340,198 490,78 310,78 460,198
+];
+animate mypolyAnimation mypoly fill #FFD700 #E0115F 5 click freeze;
+animate mypolyAnimation2 mypoly fill #E0115F #FFD700 5 mypolyAnimation.end freeze;
+animeTransform mypolyAnimation4 mypoly transform rotate "0 400 100" "360 400 100" 6 mypolyAnimation.begin 1;
+container mycont black 2 " rotate(0) " [
+	
+	animeTransform myTransform mycont transform rotate "0 150 150 " "360 150 150" 112 1s indefinite; 
+	 
+	container mycont3 black 2 "rotate(0)" [
+		container mycont4 black 2 "rotate(0)" [
+			rectangle BroussardRect 150-50 100 100 100 yellow;   
+		]  
+		circle BroussardRect 150 150 50 yellow;
+		rectangle BroussardRect2 114 114 71 71 yellow rotate(45,150,150);
+		line Broussard 150 150 150 100 black;
+		line Broussard2 150 150 150 100 black;
+		line Broussard3 150 150 150 100 black;
+		line Broussard4 150 150 150 100 black;
+		line Broussard5 150 150 150 100 black;
+	]
+	
+	animeTransform myTransform mycont4 transform rotate "0 150 150 " "-360 150 150" 200 1s indefinite; 
+	animeTransform myTransform2 mycont3 transform translate "-60 0 " "800 0" 200 1s indefinite;        
+	animeTransform myTransform3 mycont3 transform translate "0 0 " "0 -90" 12 click 1;
+	animate B1animationlinex1 Broussard x2 150 200 5 1s freeze;
+	animate B1animationliney1 Broussard y2 100 150 5 1s freeze;
+	animate B2animationlinex1 Broussard2 x2 150 200 5 1s freeze;
+	animate B2animationliney1 Broussard2 y2 100 150 5 1s freeze;
+	animate B3animationlinex1 Broussard3 x2 150 200 5 1s freeze;
+	animate B3animationliney1 Broussard3 y2 100 150 5 1s freeze;
+	animate B4animationlinex1 Broussard4 x2 150 200 5 1s freeze;
+	animate B4animationliney1 Broussard4 y2 100 150 5 1s freeze;
+	animate B5animationlinex1 Broussard5 x2 150 200 5 1s freeze;
+	animate B4animationliney1 Broussard5 y2 100 150 5 1s freeze;
+	
+	animate B1animationlinex2 Broussard x2 200 150 5 6s freeze;
+	animate B1animationliney2 Broussard y2 150 200 5 6s freeze;
+	animate B2animationlinex2 Broussard2 x2 200 150 5 6s freeze;
+	animate B2animationliney2 Broussard2 y2 150 100 5 6s freeze;
+	animate B5animationlinex2 Broussard5 x2 200 150 5 6s freeze;
+	animate B5animationliney2 Broussard5 y2 150 200 5 6s freeze;
+	animate B4animationlinex2 Broussard4 x2 200 150 5 6s freeze;
+	animate B4animationliney2 Broussard4 y2 150 200 5 6s freeze;
+	
+	animate B1animationlinex3 Broussard x2 150 100 5 11s freeze;
+	animate B1animationliney3 Broussard y2 200 150 5 11s freeze;
+	animate B4animationlinex3 Broussard4 x2 150 100 5 11s freeze;
+	animate B4animationliney3 Broussard4 y2 200 150 5 11s freeze;
+	
+	
+	animate animationlinex4 Broussard x2 100 150 5 16s freeze;
+	animate animationliney4 Broussard y2 150 100 5 16s freeze;
+	
+	animate B1animationlinex5 Broussard x2 150 200 10 21s freeze;
+	animate B1animationliney5 Broussard y2 100 150 10 21s freeze;
+	animate B2animationlinex5 Broussard2 x2 150 200 10 21s freeze;
+	animate B2animationliney5 Broussard2 y2 100 150 10 21s freeze;
+	animate B3animationlinex5 Broussard3 x2 200 150 10 21s freeze;
+	animate B3animationliney5 Broussard3 y2 150 200 10 21s freeze;
+	animate B4animationlinex5 Broussard4 x2 100 150 10 21s freeze;
+	animate B4animationliney5 Broussard4 y2 150 100 10 21s freeze;
+	animate B5animationlinex5 Broussard5 x2 150 100 10 21s freeze;
+	animate B5animationliney5 Broussard5 y2 200 150 10 21s freeze;
+]
+
+
+
+timesec = timehour*3600+timeminute*60;
+minutestosleep = timereveil*60+timeminutereveil-timehour*60-timeminute;
+secondstosleep = minutestosleep*60;
+container myclock white 4 " rotate(0) " [
+		 rectangle clockReveil 300 300 200 200 #ADD8E6;
+	     circle clockCircle 400 400 50 #C0C0C0;
+	     container cline1 white 2 " rotate( 360/12 400 400 ) " [
+	     	line line1 400 359 400 367 white;
+	     ]
+	     container cline2 white 2 " rotate( 2*360/12 400 400 ) " [
+	     	line line2 400 359 400 367 white;
+	     ]
+	     container cline3 white 2 " rotate( 3*360/12 400 400 ) " [
+	     	line line3 400 359 400 367 white;
+	     ]
+	     container cline4 white 2 " rotate( 4*360/12 400 400 ) " [
+	     	line line4 400 359 400 367 white;
+	     ]
+	     container cline5 white 2 " rotate( 5*360/12 400 400 ) " [
+	     	line line5 400 359 400 367 white;
+	     ]
+	     container cline6 white 2 " rotate( 6*360/12 400 400 ) " [
+	     	line line6 400 359 400 367 white;
+	     ]
+	     container cline7 white 2 " rotate( 7*360/12 400 400 ) " [
+	     	line line7 400 359 400 367 white;
+	     ]
+	     container cline8 white 2 " rotate( 8*360/12 400 400 ) " [
+	     	line line8 400 359 400 367 white;
+	     ]
+	     container cline9 white 2 " rotate( 9*360/12 400 400 ) " [
+	     	line line9 400 359 400 367 white;
+	     ]
+	     container cline10 white 2 " rotate( 10*360/12 400 400 ) " [
+	     	line line10 400 359 400 367 white;
+	     ]
+	     container cline11 white 2 " rotate( 11*360/12 400 400 ) " [
+	     	line line11 400 359 400 367 white;
+	     ]
+	     container cline11 white 2 " rotate( 0 ) " [
+	     	 line line12 400 359 400 367 white;
+	     ]
+	    
+]
+circle center 400 400 3 #A9A9A9;
+
+
+container myHoursCont #808080 4 " rotate( timesec*360/43200 400 400) " [
+	line hours 400 400 400 380 #808080;
+	animeTransform myHours hours transform rotate "0 400 400 " "360 400 400" 3600*12 1s indefinite; 
+]
+container myMinuteCont white 3 " rotate( timeminute*360/60 400 400) " [
+	line minutes 400 400 400 370 white;
+	animeTransform myMinute minutes transform rotate "0 400 400 " "360 400 400" 3600 1s indefinite; 
+]
+container mySecondsCont white 2 " rotate(0 400 400) " [
+	
+	line seconds 400 400 400 360 white;
+	animeTransform mySecond seconds transform rotate "0 400 400 " "360 400 400" 60 1s indefinite; 
+]
+
+text timeseted 325 320 " Alarm set at timereveil h  timeminutereveil min ";
+text wakeup 370 1000 " WAKE UP ";
+animate wakeupAnim1 clockReveil fill  #ADD8E6  #FDFD96 1 secondstosleep freeze;
+animate wakeupAnim2 wakeup y 1000 470  1 wakeupAnim1.begin freeze;

@@ -1,0 +1,27 @@
+     
+%%
+   
+%package batiste
+%class Lexer
+%public
+%line
+%column
+%cup
+
+%%
+
+[ \t\n\r]		{ }
+^#.*			{ }
+frame			{ return getSymbolFactory().newSymbol ("FRAME", Sym.FRAME); }
+rectangle			{ return getSymbolFactory().newSymbol ("MAKERECT", Sym.MAKERECT); }
+","  		{ return getSymbolFactory().newSymbol ("SEP", Sym.SEP); }
+"="			{ return getSymbolFactory().newSymbol ("EQUAL", Sym.EQUAL); }
+"+"			{ return getSymbolFactory().newSymbol ("PLUS", Sym.PLUS); }
+"-"			{ return getSymbolFactory().newSymbol ("MINUS", Sym.MINUS); }
+"*"			{ return getSymbolFactory().newSymbol ("MULT", Sym.MULT); }
+"/"			{ return getSymbolFactory().newSymbol ("DIV", Sym.DIV); }
+";"				{ return getSymbolFactory().newSymbol ("SEP", Sym.TERM); }
+[0-9]+			{ return getSymbolFactory().newSymbol ("INTEGER", Sym.INTEGER, Integer.parseInt(yytext())); }
+
+[a-zA-Z][a-zA-Z0-9]*		 { return getSymbolFactory().newSymbol ("ID", Sym.ID,yytext()); }
+[^]                    { throw new Error("Illegal character <"+yytext()+">"); }
